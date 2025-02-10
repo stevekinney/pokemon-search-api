@@ -36,7 +36,7 @@ Search for Pokémon whose names start with the given query string.
   "pokemon": [
     { "id": 1, "name": "Bulbasaur", "classification": "Seed Pokémon" }
   ],
-  "nextPage": "MQ==" // (Base64-encoded next page number)
+  "nextPage": "MQ=="
 }
 ```
 
