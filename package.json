@@ -1,0 +1,21 @@
+{
+  "name": "pokemon-search",
+  "version": "1.0.0",
+  "description": "A take-home assignment for the front-end engineering role at Temporal.",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "author": "Steve Kinney <hello@stevekinney.net>",
+  "license": "MIT",
+  "dependencies": {
+    "base-64": "^1.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "lodash-es": "^4.17.21"
+  }
+}

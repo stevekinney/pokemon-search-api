@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Pokémon API</title>
+    <meta name="description" content="A cool thing made with Glitch" />
+    <link rel="icon" href="https://fav.farm/🦖" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Pokémon API</h1>
+    </header>
+
+    <main>
+      <h2>Too Long; Didn't Read</h2>
+
+      <ul>
+        <li>
+          <a href="/api/pokemon"> <code>/api/pokemon</code></a> returns an array
+          of 10 Pokemon and optionally a next page token.
+        </li>
+        <li>
+          <a href="/api/pokemon?page=MTE%3D">
+            <code>/api/pokemon?page={token}</code>
+          </a>
+          returns an array of all of the Pokemon starting from a provided page.
+        </li>
+        <li>
+          <a href="/api/pokemon/1"> <code>/api/pokemon/1</code></a> return a
+          single Pokemon.
+        </li>
+        <li>
+          <a href="/api/pokemon/search/l">
+            <code>/api/pokemon/search/:query</code></a
+          >
+          searches by the Pokemon's name.
+        </li>
+      </ul>
+
+      <section id="search">
+        <input
+          type="text"
+          id="search-query"
+          placeholder="Start Typing a Pokemon's Name Here"
+        />
+        <div id="search-results"></div>
+      </section>
+
+      <h2 id="api-overview"><strong>API Overview</strong></h2>
+      <p>
+        This API provides access to a Pokémon dataset. It includes endpoints for
+        <strong>searching Pokémon by name</strong>,
+        <strong>retrieving Pokémon by ID</strong>, and
+        <strong>paginated Pokémon lists</strong>. Additionally, it supports
+        <strong>chaos parameters</strong> (<code>delay</code>,
+        <code>flakiness</code>, <code>chaos</code>) to introduce artificial
+        latency and errors.
+      </p>
+
+      <h2 id="endpoints"><strong>Endpoints</strong></h2>
+      <h3 id="get-api-pokemon-search-search">
+        <code>GET /api/pokemon/search/:search</code>
+      </h3>
+      <h4><strong>Description</strong></h4>
+      <p>Search for Pokémon whose names start with the given query string.</p>
+      <h4><strong>Query Parameters</strong></h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <code>page</code>
+            </td>
+            <td>string (Base64)</td>
+            <td>
+              The <strong>page number</strong> (Base64-encoded). Default is
+              <code>0</code>.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <code>limit</code>
+            </td>
+            <td>number</td>
+            <td>
+              The <strong>number of results per page</strong>. Default is
+              <code>10</code>.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <code>delay</code>
+            </td>
+            <td>number</td>
+            <td>(Optional) Adds an artificial delay in milliseconds.</td>
+          </tr>
+          <tr>
+            <td>
+              <code>flakiness</code>
+            </td>
+            <td>number</td>
+            <td>
+              (Optional) Adds randomness where <strong>1 in N</strong> requests
+              fail.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <code>chaos</code>
+            </td>
+            <td>boolean</td>
+            <td>
+              (Optional) If <code>true</code>, enables
+              <strong>high flakiness</strong> and a
+              <strong>random delay</strong>.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <h4 id="responses"><strong>Responses</strong></h4>
+      <ul>
+        <li>
+          ✅ <code>200 OK</code>:
+          <pre><code class="lang-json">{
+  <span class="hljs-attr">"pokemon"</span>: [
+    { <span class="hljs-attr">"id"</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Bulbasaur"</span>, <span class="hljs-attr">"classification"</span>: <span class="hljs-string">"Seed Pokémon"</span> }
+  ],
+  <span class="hljs-attr">"nextPage"</span>: <span class="hljs-string">"MQ=="</span> // (Base64-encoded next page number)
+}
+</code></pre>
+        </li>
+        <li>
+          ❌ <code>404 Not Found</code>:
+          <pre><code class="lang-json">{ <span class="hljs-attr">"error"</span>: <span class="hljs-string">"Page out of bounds"</span> }
+</code></pre>
+        </li>
+        <li>
+          ❌ <code>500 Internal Server Error</code>
+          <em>(if Chaos Mode™ fails a request)</em>:
+          <pre><code class="lang-json">{ <span class="hljs-attr">"error"</span>: <span class="hljs-string">"Something went wrong."</span> }
+</code></pre>
+        </li>
+      </ul>
+
+      <h3 id="get-api-pokemon-id">
+        <code>GET /api/pokemon/:id</code>
+      </h3>
+      <h4><strong>Description</strong></h4>
+      <p>
+        Retrieve details for a <strong>specific Pokémon</strong> by its unique
+        <code>id</code>.
+      </p>
+      <h4 id="path-parameter"><strong>Path Parameter</strong></h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <code>id</code>
+            </td>
+            <td>number</td>
+            <td>The <strong>Pokémon ID</strong> to look up.</td>
+          </tr>
+        </tbody>
+      </table>
+      <h4><strong>Query Parameters</strong></h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <code>delay</code>
+            </td>
+            <td>number</td>
+            <td>(Optional) Adds an artificial delay in milliseconds.</td>
+          </tr>
+          <tr>
+            <td>
+              <code>flakiness</code>
+            </td>
+            <td>number</td>
+            <td>
+              (Optional) Adds randomness where <strong>1 in N</strong> requests
+              fail.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <code>chaos</code>
+            </td>
+            <td>boolean</td>
+            <td>
+              (Optional) If <code>true</code>, enables
+              <strong>high flakiness</strong> and a
+              <strong>random delay</strong>.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <h4 id="responses"><strong>Responses</strong></h4>
+      <ul>
+        <li>
+          ✅ <code>200 OK</code>:
+          <pre><code class="lang-json">{
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">1</span>,
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Bulbasaur"</span>,
+  <span class="hljs-attr">"classification"</span>: <span class="hljs-string">"Seed Pokémon"</span>,
+  <span class="hljs-attr">"type"</span>: [<span class="hljs-string">"Grass"</span>, <span class="hljs-string">"Poison"</span>]
+}
+</code></pre>
+        </li>
+        <li>
+          ❌ <code>404 Not Found</code>:
+          <pre><code class="lang-json">{ <span class="hljs-attr">"error"</span>: <span class="hljs-string">"Pokémon not found"</span> }
+</code></pre>
+        </li>
+        <li>
+          ❌ <code>500 Internal Server Error</code>
+          <em>(if Chaos Mode™ fails a request)</em>:
+          <pre><code class="lang-json">{ <span class="hljs-attr">"error"</span>: <span class="hljs-string">"Something went wrong."</span> }
+</code></pre>
+        </li>
+      </ul>
+
+      <h3 id="get-api-pokemon">
+        <code>GET /api/pokemon</code>
+      </h3>
+      <h4><strong>Description</strong></h4>
+      <p>Fetch a <strong>paginated list of Pokémon</strong>.</p>
+      <h4><strong>Query Parameters</strong></h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <code>page</code>
+            </td>
+            <td>string (Base64)</td>
+            <td>
+              The <strong>page number</strong> (Base64-encoded). Default is
+              <code>0</code>.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <code>limit</code>
+            </td>
+            <td>number</td>
+            <td>
+              The <strong>number of results per page</strong>. Default is
+              <code>10</code>.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <code>delay</code>
+            </td>
+            <td>number</td>
+            <td>(Optional) Adds an artificial delay in milliseconds.</td>
+          </tr>
+          <tr>
+            <td>
+              <code>flakiness</code>
+            </td>
+            <td>number</td>
+            <td>
+              (Optional) Adds randomness where <strong>1 in N</strong> requests
+              fail.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <code>chaos</code>
+            </td>
+            <td>boolean</td>
+            <td>
+              (Optional) If <code>true</code>, enables
+              <strong>high flakiness</strong> and a
+              <strong>random delay</strong>.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <h4 id="responses"><strong>Responses</strong></h4>
+      <ul>
+        <li>
+          ✅ <code>200 OK</code>:
+          <pre><code class="lang-json">{
+  <span class="hljs-attr">"pokemon"</span>: [
+    { <span class="hljs-attr">"id"</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Bulbasaur"</span>, <span class="hljs-attr">"classification"</span>: <span class="hljs-string">"Seed Pokémon"</span> },
+    { <span class="hljs-attr">"id"</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Ivysaur"</span>, <span class="hljs-attr">"classification"</span>: <span class="hljs-string">"Seed Pokémon"</span> }
+  ],
+  <span class="hljs-attr">"nextPage"</span>: <span class="hljs-string">"MQ=="</span>
+}
+</code></pre>
+        </li>
+        <li>
+          ❌ <code>400 Bad Request</code>
+          <em>(if page encoding is invalid)</em>:
+          <pre><code class="lang-json">{ <span class="hljs-attr">"error"</span>: <span class="hljs-string">"Invalid page encoding"</span> }
+</code></pre>
+        </li>
+        <li>
+          ❌ <code>500 Internal Server Error</code>
+          <em>(if Chaos Mode™ fails a request)</em>:
+          <pre><code class="lang-json">{ <span class="hljs-attr">"error"</span>: <span class="hljs-string">"Something went wrong."</span> }
+</code></pre>
+        </li>
+      </ul>
+
+      <h2 id="chaos-mode-withchaos-middleware">
+        <strong>Chaos Mode™ (<code>withChaos</code> Middleware)</strong>
+      </h2>
+      <p>
+        This middleware introduces
+        <strong>random errors and delays</strong> based on query parameters:
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Effect</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <code>delay</code>
+            </td>
+            <td>Adds a <strong>response delay</strong> (in milliseconds).</td>
+          </tr>
+          <tr>
+            <td>
+              <code>flakiness</code>
+            </td>
+            <td>
+              Makes <strong>1 in N</strong> requests fail with
+              <code>500 Internal Server Error</code>.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <code>chaos</code>
+            </td>
+            <td>
+              If <code>true</code>, enables <strong>random delays</strong> and
+              <strong>high flakiness</strong> (5% chance of failure).
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="summary-of-endpoints"><strong>Summary of Endpoints</strong></h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Endpoint</th>
+            <th>Method</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <code>/api/pokemon/search/:search</code>
+            </td>
+            <td>
+              <code>GET</code>
+            </td>
+            <td>Search Pokémon by name (with pagination).</td>
+          </tr>
+          <tr>
+            <td>
+              <code>/api/pokemon/:id</code>
+            </td>
+            <td>
+              <code>GET</code>
+            </td>
+            <td>Retrieve Pokémon details by ID.</td>
+          </tr>
+          <tr>
+            <td>
+              <code>/api/pokemon</code>
+            </td>
+            <td>
+              <code>GET</code>
+            </td>
+            <td>Get a paginated list of Pokémon.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        This API is <strong>RESTful</strong>, supports
+        <strong>pagination</strong>, and includes a
+        <strong>Chaos Mode™</strong> for testing failure scenarios.
+      </p>
+    </main>
+
+    <div
+      class="glitchButton"
+      style="position: fixed; top: 20px; right: 20px"
+    ></div>
+    <script src="https://button.glitch.me/button.js"></script>
+    <script src="/client.js" defer></script>
+  </body>
+</html>

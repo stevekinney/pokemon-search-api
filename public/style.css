@@ -1,0 +1,134 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --accent-color: oklch(46.66% 0.23 317.77);
+  --code-background: oklch(from var(--accent-color) 0.95 0.02 h);
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif;
+  margin: 2em;
+}
+
+main,
+header {
+  max-width: 800px;
+  margin: auto;
+}
+
+h1 {
+  color: var(--accent-color);
+}
+
+h2,
+h2,
+h4,
+h5,
+h6 {
+  color: oklch(from var(--accent-color) calc(l - 0.2) c h);
+}
+
+strong,
+.bold {
+  color: oklch(from var(--accent-color) calc(l - 0.2) c h);
+  font-weight: bold;
+}
+
+p {
+  max-width: 600px;
+}
+
+form {
+  margin-bottom: 25px;
+  padding: 15px;
+  background-color: cyan;
+  display: inline-block;
+  width: 100%;
+  max-width: 340px;
+  border-radius: 3px;
+}
+
+input {
+  display: block;
+  margin-bottom: 10px;
+  padding: 5px;
+  width: 100%;
+  border: 1px solid lightgrey;
+  border-radius: 3px;
+  font-size: 16px;
+}
+
+button {
+  font-size: 16px;
+  border-radius: 3px;
+  background-color: lightgrey;
+  border: 1px solid grey;
+  box-shadow: 2px 2px teal;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: yellow;
+}
+
+button:active {
+  box-shadow: none;
+}
+
+ul {
+  padding-left: 0;
+}
+
+li {
+  list-style-type: none;
+  margin-bottom: 5px;
+}
+
+pre {
+  background-color: var(--code-background);
+  border: 1px solid oklch(from var(--code-background) calc(l - 0.2) c h);
+  padding: 10px;
+  border-radius: 3px;
+}
+
+pre code {
+  border: none;
+}
+
+code {
+  background-color: var(--code-background);
+  padding: 1px 3px;
+  font-size: 1.2em;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid black;
+}
+
+th,
+td {
+  border: 1px solid black;
+  padding: 5px;
+}
+
+th {
+  background-color: var(--code-background);
+}
+
+a {
+  font-weight: bold;
+  color: var(--accent-color);
+}
+
+a:hover {
+  color: oklch(from var(--accent-color) calc(l - 0.2) c h);
+}
+
+a:active {
+  color: oklch(from var(--accent-color) calc(l - 0.4) c h);
+}
