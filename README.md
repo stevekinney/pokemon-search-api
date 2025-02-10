@@ -52,8 +52,6 @@ Search for Pokémon whose names start with the given query string.
 { "error": "Something went wrong." }
 ```
 
----
-
 ## `GET /api/pokemon/:id`
 
 Retrieve details for a **specific Pokémon** by its unique `id`.
@@ -97,8 +95,6 @@ Retrieve details for a **specific Pokémon** by its unique `id`.
 { "error": "Something went wrong." }
 ```
 
----
-
 ## `GET /api/pokemon`
 
 Fetch a **paginated list of Pokémon**.
@@ -138,8 +134,6 @@ Fetch a **paginated list of Pokémon**.
 ```json
 { "error": "Something went wrong." }
 ```
-
----
 
 ## Chaos Mode (`withChaos` Middleware)
 
